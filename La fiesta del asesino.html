@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La fiesta del asesino</title>
+<style>
+:root{--bg:#0a080d;--panel:#16111d;--fg:#ece8f2;--mut:#8f879d;--acc:#d62828;--me:#2b2238;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+#app{display:flex;flex-direction:column;height:100%;max-width:640px;margin:0 auto}
+header{display:flex;align-items:center;gap:10px;padding:8px 14px;background:var(--panel);border-bottom:1px solid #2a2030}
+#av{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--acc)}
+.nm{font-weight:700}.st{font-size:12px;color:var(--acc)}
+#chip{margin-left:auto;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;background:#333;color:#fff}
+#chat{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.m{max-width:86%;padding:10px 12px;border-radius:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.g{background:var(--panel);align-self:flex-start;border-bottom-left-radius:4px}
+.u{background:var(--me);align-self:flex-end;border-bottom-right-radius:4px}
+.r{border-left:4px solid var(--acc);color:#ffb3b3;font-weight:600}
+.s{align-self:center;color:var(--mut);font-size:13px;text-align:center}
+.win{align-self:stretch;max-width:none;text-align:center;background:#2a0a0a;border:2px solid var(--acc);font-size:18px}
+.win b{display:block;font-size:30px;color:#ff5a5a;font-variant-numeric:tabular-nums}
+.call{display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px 0}
+.call img{width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid var(--acc)}
+.pick{display:flex;gap:10px;width:100%}
+.pick button{flex:1;padding:16px 6px;border:0;border-radius:12px;color:#fff;font-size:16px;font-weight:700}
+#bar{display:flex;gap:8px;padding:10px;background:var(--panel);border-top:1px solid #2a2030}
+#bar input{flex:1;min-width:0;padding:12px;border-radius:10px;border:1px solid #3a3050;background:var(--bg);color:var(--fg);font-size:16px}
+#bar button{padding:0 18px;border:0;border-radius:10px;background:var(--acc);color:#fff;font-weight:700;font-size:16px}
+#bar[hidden]{display:none}
+.gone #chat{justify-content:center}
+</style>
+</head>
+<body>
+<div id="app">
+<header><img id="av" alt="" src="data:image/jpeg;base64,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"><div><div class="nm">Desconocido</div><div class="st">● llamada en curso</div></div><span id="chip" hidden></span></header>
+<div id="chat"></div>
+<div id="bar" hidden><input id="inp" autocomplete="off" autocapitalize="off" placeholder="Escribe aquí…"><button id="go">Enviar</button></div>
+</div>
+<script>
+/* ===== GUION Y CONTRASEÑAS ===== */
+const A=x=>({rojo:x,verde:x,negro:x});
+const INTRO=[
+ "…¿Me oyes? Bien. No cuelgues. No te conviene.",
+ "Antes de llegar a vuestra fiestecita de Halloween, vi cómo uno de vosotros mataba a una persona. A sangre fría. Sin temblar. Y sonreía.",
+ "No pienso decir quién. Prefiero mirar cómo os miráis unos a otros.",
+ "Soy… un poco especial. He escondido pistas por toda la casa. Cada una guarda una contraseña. Dádmela aquí y os regalaré un pedacito del asesino.",
+ "Os aviso: voy a jugar con vosotros. Es lo único que me hace sentir vivo."];
+const ST=[
+ {i:["Mirad la pared. ¿La veis? Está llena de vuestras caras. Las fui pegando una a una, despacito, imaginando cuál sería la siguiente.",
+     "Uno de esos rostros pertenece a un asesino. Y quién dice que el siguiente no seréis vosotros… Como dicen, nunca te fíes de un amigo."],
+  q:["Y por si a alguno le pican las ganas de chivarse… decidme: ¿a quién deberíais llamar?"],
+  p:A(["policia","la policia","112","091"]),
+  ok:["Jajaja… qué lentos. Qué tiernos. A lo mejor esto os suena: miraos bien las caras. ¿Ya os las habéis mirado?","Pues el asesino… respira… ¡jajajaja! ¿De verdad pensabais que sería tan fácil?","No, no, no. Primero tenéis que demostrarme que puedo confiar en vosotros."]},
+ {i:["¿No os habéis dado cuenta? Tenéis compañía en el jardín de atrás. Qué mala educación, no invitarlo a entrar.","Aunque a estas alturas ya le da igual. Ya no siente nada. Pero tiene un mensaje para vosotros."],
+  p:A(["0000"]),
+  ok:["Exacto. No hay nada como los buenos amigos en los que confiar.","Os noto cada vez más cerca. Huelo vuestro miedo desde aquí. Es delicioso.","Pero antes, vuestro despreciable amigo tiene una careta que quitarse, y yo le voy a ayudar. Basta con mirarlo a los ojos… porque marrón los veréis."],
+  r:"Ojos marrones."},
+ {i:["Qué caras de sospecha. Cómo se cruza la desconfianza entre vuestras miradas. ¿Lo veis? Así es mucho más divertido.","Qué noche de Halloween tan hermosa… Para calmar los ánimos, unos tragos nos vendrán bien, ¿no os parece?"],
+  p:{rojo:["calabaza"],verde:["esqueleto"],negro:["titere","marioneta"]},
+  ok:["Genial. Así me gusta. Estoy muy orgulloso de vosotros… casi me emociono.","La siguiente no será tan fácil. Pero antes, mirad su pelo. Castaño. Es el que vi mientras ocurría el asesinato. No pude apartar los ojos."],
+  r:"Pelo castaño."},
+ {i:["La siguiente está en el paso que une el jardín de delante con el de atrás. Os he dejado un regalito que descifrar. Uy, un pareado: soy todo un poeta.","Si lo resolvéis, estaréis más cerca de saber quién es el asesino. O más cerca de acabar como la pobre víctima."],
+  p:A(["542316"]),
+  h:"Cerca… pero aquí va un número. Los muertos no sangran letras.",
+  ok:["Muy bien. Vuestro ritmo me da escalofríos… de los buenos.","Otro rasgo más, para que sigáis soñando conmigo: sus facciones, finas, en la nariz y los ojos. Y una piel pálida, como la de quien hace mucho que no ve la luz."],
+  r:"Facciones finas en nariz y ojos, y piel pálida."},
+ {i:["Esta vez no os haré ir lejos. Abajo, donde os gustará entrar. Donde reina la calma, al final de ese pasillo… en el SÓTANO. Allí os espera la siguiente pista. Disfrutadla."],
+  p:{rojo:["gato"],verde:["comida"],negro:["naturaleza"]},
+  ok:["Genial, genial. Vais perfectos. Si habéis llegado hasta aquí, tendré que daros algo bueno.","Mirad las caras de vuestros compañeros… porque podrían ser ellos. El asesino es el que durante todo este rato no ha parado de sonreír. ¿Os habéis fijado?"],
+  r:"No ha parado de sonreír."}
+];
+const FINAL=["Entonces ya sabéis quién es, ¿verdad?"];
+const NOMBRE=["tu","el narrador","narrador","desconocido"];
+const ESPERA=20;
+const FALLOS=["Nooo… esa no es. Qué lástima.","Jajaja, no. Seguid buscando, que me estoy divirtiendo.","Incorrecto. Alguien aquí está muy nervioso, lo noto.","Frío, frío… y no es por el Halloween."];
+const EQ={rojo:"#c62a2f",verde:"#2f9e55",negro:"#3b3b44"};
+/* ================================ */
+const $=id=>document.getElementById(id),chat=$("chat"),bar=$("bar"),inp=$("inp");
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const fmt=ms=>{const d=new Date(ms);return d.toLocaleTimeString("es-ES",{hour12:false})+"."+String(d.getMilliseconds()).padStart(3,"0")};
+if(location.hash==="#reiniciar"){try{localStorage.removeItem("fa2")}catch(e){}location.hash=""}
+let S=null;try{S=JSON.parse(localStorage.getItem("fa2")||"null")}catch(e){}
+if(!S)S={team:null,step:0,msgs:[],done:null,lock:0};
+let busy=false;
+const save=()=>{try{localStorage.setItem("fa2",JSON.stringify(S))}catch(e){}};
+function draw(m){
+ const d=document.createElement("div");d.className="m "+m.c;d.textContent=m.t;
+ if(m.h){const b=document.createElement("b");b.textContent=m.h;d.appendChild(b)}
+ chat.appendChild(d);chat.scrollTop=chat.scrollHeight;
+}
+function add(t,c,h){const m={t,c,h};S.msgs.push(m);save();draw(m)}
+async function say(lines){
+ busy=true;bar.hidden=true;
+ for(const l0 of lines){
+  const l=typeof l0==="string"?{t:l0}:l0;
+  if(l.w){await sleep(l.w);continue}
+  const ty=document.createElement("div");ty.className="m s";ty.textContent="Desconocido está escribiendo…";
+  chat.appendChild(ty);chat.scrollTop=chat.scrollHeight;
+  await sleep(900+Math.min(l.t.length*22,2400));
+  ty.remove();add(l.t,l.c||"g");
+ }
+ busy=false;bar.hidden=!!S.done;if(!S.done)inp.focus();
+}
+function chip(){const c=$("chip");if(S.team){c.hidden=false;c.textContent=S.team.toUpperCase();c.style.background=EQ[S.team]}}
+function intro(n){const s=ST[n];return [...s.i,...(s.t?[s.t[S.team]]:[]),...(s.q||[])]}
+function picker(){
+ const w=document.createElement("div");w.className="call";
+ const im=document.createElement("img");im.src=$("av").src;im.alt="";w.appendChild(im);
+ const p=document.createElement("div");p.className="pick";
+ Object.keys(EQ).forEach(k=>{const b=document.createElement("button");b.textContent=k.toUpperCase();b.style.background=EQ[k];b.onclick=()=>{w.remove();start(k)};p.appendChild(b)});
+ w.appendChild(p);chat.appendChild(w);
+}
+async function start(k){
+ S.team=k;save();chip();add("Equipo "+k.toUpperCase(),"m u");
+ await say([...INTRO,...intro(0)]);
+}
+async function submit(){
+ if(busy||S.done||!S.team)return;
+ const v=inp.value.trim();if(!v)return;inp.value="";
+ add(v,"m u");
+ const wait=Math.ceil((S.lock-Date.now())/1000);
+ if(wait>0)return say(["Tranquilos. Esperad "+wait+" segundos antes de volver a intentarlo."]);
+ if(S.step<ST.length){
+  const s=ST[S.step];
+  if(s.p[S.team].some(x=>norm(x)===norm(v))){
+   const out=[...s.ok];
+   if(s.r)out.push({t:s.r,c:"g r"});
+   S.step++;save();
+   out.push({w:9000},...(S.step<ST.length?intro(S.step):FINAL));
+   await say(out);
+  }else await say([s.h||FALLOS[Math.floor(Math.random()*FALLOS.length)]]);
+ }else{
+  if(NOMBRE.some(a=>norm(a)===norm(v))){
+   S.done=Date.now();save();bar.hidden=true;
+   await say(["…","Sí. Soy yo. Siempre fui yo."]);
+   add("🏆 ¡Equipo "+S.team.toUpperCase()+", habéis descubierto al asesino!\nHora registrada:","m win",fmt(S.done));
+   add("Enseñad esta pantalla y acudid dentro de casa.","m s");
+   await say(["Todo este rato he estado jugando con vosotros. Me he divertido muchísimo. Gracias por el rato, de corazón.","Ya me despido, amigos. Ha sido divertido mientras ha durado.","Sed buenos… por esta noche."]);
+   await vanish();
+  }else{
+   S.lock=Date.now()+ESPERA*1000;save();
+   await say(["Ay, ay, ay… ese no es. Y ahora, pensadlo bien: "+ESPERA+" segundos de castigo."]);
+  }
+ }
+}
+function gone(){$("av").style.visibility="hidden";document.querySelector(".st").textContent="";document.body.classList.add("gone")}
+async function vanish(){
+ await sleep(6000);
+ const a=$("av");
+ for(let i=0;i<8;i++){a.style.opacity=i%2?1:.1;await sleep(130)}
+ gone();
+ S.msgs=S.msgs.filter(m=>m.c.includes("win"));S.gone=true;save();
+ chat.querySelectorAll(".m").forEach(e=>{if(!e.classList.contains("win"))e.remove()});
+}
+$("go").onclick=submit;
+inp.addEventListener("keydown",e=>{if(e.key==="Enter")submit()});
+S.msgs.forEach(draw);chip();if(S.gone)gone();
+if(!S.team){add("📞 Llamada entrante… Elegid vuestro equipo para contestar.","m s");picker()}
+else if(!S.done)bar.hidden=false;
+</script>
+</body>
+</html>
